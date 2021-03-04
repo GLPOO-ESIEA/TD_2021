@@ -22,7 +22,6 @@ Réaliser une interface en Qt pour votre application de magasin.
 
 ## TD2
 
-
 Ecrire le diagramme de classe complet de notre application
 Ecrire le diagramme séquence de l’inscription d’un participant. 
 Ajouter le support des articles et de commandes pour les clients :
@@ -36,5 +35,5 @@ Ajouter le support des articles pour les acheteurs et les admins
 	- Modifier des articles
 	- Supprimer un article
 	- Changer le status d'une commande
-Ecriture de tests unitaire
+Ecriture de tests unitaire + integration continue
 
