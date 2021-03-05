@@ -10,3 +10,11 @@ class ResourceNotFound(Error):
 
 class InvalidData(Error):
     pass
+
+
+class NotEnoughArticle(Error):
+    pass
+
+
+class Conflict(Error):
+    pass

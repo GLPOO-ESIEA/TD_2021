@@ -13,11 +13,13 @@ class DAO:
     def get_all(self):
         raise NotImplementedError()
 
-    def create(self, data: dict):
-        raise NotImplementedError()
+    def create(self, entity):
+        self._database_session.add(entity)
+        self._database_session.flush()
 
-    def update(self, entity, data: dict):
-        raise NotImplementedError()
+    def update(self, entity):
+        self._database_session.merge(entity)
+        self._database_session.flush()
 
     def delete(self, entity):
-        raise NotImplementedError()
+        self._database_session.delete(entity)
