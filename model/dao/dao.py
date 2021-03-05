@@ -13,11 +13,3 @@ class DAO:
     def get_all(self):
         raise NotImplementedError()
 
-    def create(self, data: dict):
-        raise NotImplementedError()
-
-    def update(self, entity, data: dict):
-        raise NotImplementedError()
-
-    def delete(self, entity):
-        raise NotImplementedError()

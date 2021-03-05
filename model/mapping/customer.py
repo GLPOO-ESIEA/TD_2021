@@ -12,7 +12,7 @@ class Customer(User):
                             backref=backref("customer", lazy='subquery'))
 
     __mapper_args__ = {
-        'polymorphic_identity': 'member',
+        'polymorphic_identity': 'customer',
     }
 
     def __repr__(self):

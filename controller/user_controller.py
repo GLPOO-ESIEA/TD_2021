@@ -1,72 +1,81 @@
 import re
 
-from model.dao.member_dao import MemberDAO
+from model.mapping.user import User
+from model.dao.user_dao import UserDAO
 from exceptions import Error, InvalidData
 
 
-class MemberController:
+class UserController:
     """
-    Member actions
+    user actions
     """
 
     def __init__(self, database_engine):
         self._database_engine = database_engine
         self._frames = []
 
-    def list_members(self):
+    def list_users(self):
         with self._database_engine.new_session() as session:
-            members = MemberDAO(session).get_all()
-            members_data = [member.to_dict() for member in members]
-        return members_data
+            users = UserDAO(session).get_all()
+            users_data = [user.to_dict() for user in users]
+        return users_data
 
-    def get_member(self, member_id):
+    def get_user(self, user_id):
         with self._database_engine.new_session() as session:
-            member = MemberDAO(session).get(member_id)
-            member_data = member.to_dict()
-        return member_data
+            user = UserDAO(session).get(user_id)
+            user_data = user.to_dict()
+        return user_data
 
-    def create_member(self, data):
+    def create_user(self, data):
 
         self._check_profile_data(data)
         try:
             with self._database_engine.new_session() as session:
-                # Save member in database
-                member = MemberDAO(session).create(data)
-                member_data = member.to_dict()
-                return member_data
+                # Save user in database
+                user = User(username=data['username'],
+                            firstname=data['firstname'],
+                            lastname=data['lastname'],
+                            email=data.get('email'))
+                session.add(user)
+                user_data = user.to_dict()
+                return user_data
         except Error as e:
             # log error
             raise e
 
-    def update_member(self, member_id, member_data):
+    def update_user(self, user_id, user_data):
 
-        self._check_profile_data(member_data, update=True)
+        self._check_profile_data(user_data, update=True)
         with self._database_engine.new_session() as session:
-            member_dao = MemberDAO(session)
-            member = member_dao.get(member_id)
-            member = member_dao.update(member, member_data)
-            return member.to_dict()
+            user_dao = UserDAO(session)
+            user = user_dao.get(user_id)
+            for key in ['username', 'firstname', 'lastname', 'email']:
+                if user_data.get(key) is not None:
+                    setattr(user, key, user_data['key'])
+            user = session.merge(user)
+            return user.to_dict()
 
-    def delete_member(self, member_id):
+    def delete_user(self, user_id):
 
         with self._database_engine.new_session() as session:
-            member_dao = MemberDAO(session)
-            member = member_dao.get(member_id)
-            member_dao.delete(member)
+            user_dao = UserDAO(session)
+            user = user_dao.get(user_id)
+            session.delete(user)
 
-    def search_member(self, firstname, lastname):
+    def search_user(self, firstname, lastname):
 
         # Query database
         with self._database_engine.new_session() as session:
-            member_dao = MemberDAO(session)
-            member = member_dao.get_by_name(firstname, lastname)
-            return member.to_dict()
+            user_dao = UserDAO(session)
+            user = user_dao.get_by_name(firstname, lastname)
+            return user.to_dict()
 
     def _check_profile_data(self, data, update=False):
         name_pattern = re.compile("^[\S-]{2,50}$")
         type_pattern = re.compile("^(customer|seller)$")
         email_pattern = re.compile("^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
         mandatories = {
+            'username': {"type": str, "regex": name_pattern},
             'firstname': {"type": str, "regex": name_pattern},
             'lastname': {"type": str, "regex": name_pattern},
             'email': {"type": str, "regex": email_pattern},

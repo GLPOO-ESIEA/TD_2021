@@ -15,12 +15,12 @@ class User(Base):
 
     email = Column(String(256), nullable=False)
 
-    person_type = Column(String(50), nullable=False)
+    user_type = Column(String(50), nullable=False)
 
     # https://docs.sqlalchemy.org/en/13/orm/inheritance.html
     __mapper_args__ = {
         'polymorphic_identity': 'user',
-        'polymorphic_on': person_type
+        'polymorphic_on': user_type
     }
 
     def __repr__(self):

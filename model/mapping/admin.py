@@ -9,7 +9,7 @@ class Admin(User):
     id = Column(String(36), ForeignKey(User.id), default=generate_id, primary_key=True)
 
     __mapper_args__ = {
-        'polymorphic_identity': 'member',
+        'polymorphic_identity': 'admin',
     }
 
     def __repr__(self):
