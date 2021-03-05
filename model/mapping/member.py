@@ -1,5 +1,4 @@
-from model.mapping import Base
-import uuid
+from model.mapping import Base, generate_id
 
 from sqlalchemy import Column, String, UniqueConstraint
 
@@ -8,7 +7,7 @@ class Member(Base):
     __tablename__ = 'members'
     __table_args__ = (UniqueConstraint('firstname', 'lastname'),)
 
-    id = Column(String(36), default=str(uuid.uuid4()), primary_key=True)
+    id = Column(String(36), default=generate_id, primary_key=True)
 
     firstname = Column(String(50), nullable=False)
     lastname = Column(String(50), nullable=False)
