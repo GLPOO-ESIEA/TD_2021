@@ -1,7 +1,7 @@
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from sqlalchemy.orm.exc import NoResultFound
 
-from model.mapping.member import Member
+from model.mapping.user import Member
 from model.dao.dao import DAO
 
 from exceptions import Error, ResourceNotFound

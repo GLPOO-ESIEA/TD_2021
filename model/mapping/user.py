@@ -3,17 +3,25 @@ from model.mapping import Base, generate_id
 from sqlalchemy import Column, String, UniqueConstraint
 
 
-class Member(Base):
-    __tablename__ = 'members'
-    __table_args__ = (UniqueConstraint('firstname', 'lastname'),)
+class User(Base):
+    __tablename__ = 'user'
+    __table_args__ = (UniqueConstraint('username'),)
 
     id = Column(String(36), default=generate_id, primary_key=True)
 
+    username = Column(String(50), nullable=False)
     firstname = Column(String(50), nullable=False)
     lastname = Column(String(50), nullable=False)
 
     email = Column(String(256), nullable=False)
-    type = Column(String(10), nullable=False)
+
+    person_type = Column(String(50), nullable=False)
+
+    # https://docs.sqlalchemy.org/en/13/orm/inheritance.html
+    __mapper_args__ = {
+        'polymorphic_identity': 'user',
+        'polymorphic_on': person_type
+    }
 
     def __repr__(self):
         return "<Member(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.type)
