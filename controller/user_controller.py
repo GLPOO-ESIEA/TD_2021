@@ -12,7 +12,6 @@ class UserController:
 
     def __init__(self, database_engine):
         self._database_engine = database_engine
-        self._frames = []
 
     def list_users(self):
         with self._database_engine.new_session() as session:
@@ -27,7 +26,7 @@ class UserController:
         return user_data
 
     def create_user(self, data):
-
+        raise NotImplementedError()
         self._check_profile_data(data)
         try:
             with self._database_engine.new_session() as session:
