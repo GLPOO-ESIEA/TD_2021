@@ -1,6 +1,7 @@
+import datetime
 from model.mapping import Base, generate_id
-
-from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Integer
+from model.dao.dao_error_handler import dao_error_handler
+from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Integer, DateTime
 from sqlalchemy.orm import relationship
 
 
@@ -10,7 +11,7 @@ class Command(Base):
     id = Column(String(36), default=generate_id, primary_key=True)
 
     # Sport is unique in database
-    date = Column(String(50), nullable=False, unique=True)
+    date = Column(DateTime(), default=datetime.datetime.utcnow, nullable=False)
     status = Column(String(10), nullable=True)  # TODO: update with Enum
     customer_id = Column(String(36), ForeignKey("customer.id"), nullable=True)
 
@@ -27,6 +28,12 @@ class Command(Base):
             "description": self.description,
             'articles': [articleAsso.todict() for articleAsso in self.articles]
         }
+
+    @dao_error_handler
+    def add_article(self, article, number):
+        association = CommandAssociation(number=number)
+        association.article = article
+        self.articles.append(association)
 
 
 class CommandAssociation(Base):
