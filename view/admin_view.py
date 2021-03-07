@@ -1,12 +1,12 @@
 
 import sys
-from vue.customer_vue import MemberVue
+from view.customer_view import CustomerView
 from exceptions import ResourceNotFound, Error, InvalidData
 
 
-class AdminVue(MemberVue):
+class AdminView(CustomerView):
     """
-    Admin Vue
+    Admin View
     Admin specific interfaces
     """
 

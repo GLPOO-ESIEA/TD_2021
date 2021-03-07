@@ -1,10 +1,10 @@
 from model.dao.user_dao import UserDAO
-from controller.customer_controller import CustomerController
 from controller.customer_builder import CustomerBuilder
-from vue.common import Common
+from view.common import Common
+from exceptions import ResourceNotFound
 
 
-class MainVue:
+class MainView:
 
     def __init__(self, user_dao: UserDAO):
         self._user_dao = user_dao
@@ -18,7 +18,15 @@ class MainVue:
             self.subscribe()
 
     def connect(self):
-        pass
+        print("Connection")
+        while True:
+            username = self._common.ask_name(key_name="username")
+            try:
+                user = self._user_dao.get_by_username(username)
+                break
+            except ResourceNotFound():
+                print("/!\\ Customer %s not exists" % username)
+        self.show_menu(user)
 
     def subscribe(self):
         # Show subscription formular
@@ -28,16 +36,17 @@ class MainVue:
 
         while True:
             username = self._common.ask_name(key_name="username")
-            if customer_builder.check_username_exists(username):
-                print("/!\\ Customer %s already exists")
-            else:
+            try:
+                self._user_dao.get_by_username(username)
+                print("/!\\ Customer %s already exists" % username)
+            except ResourceNotFound:
                 break
         firstname = self._common.ask_name(key_name="firstname")
         lastname = self._common.ask_name(key_name="lastname")
         email = self._common.ask_email()
         user = customer_builder.create_user(username, firstname, lastname, email)
-        self.show_customer_view(user)
+        self.show_menu(user)
 
-    def show_customer_view(self, customer):
+    def show_menu(self, user):
         pass
 

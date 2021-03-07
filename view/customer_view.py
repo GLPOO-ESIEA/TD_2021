@@ -1,9 +1,9 @@
-from vue.common import Common
+from view.common import Common
 
 
-class MemberVue:
+class CustomerView:
     """
-    Member Vue
+    Customer View
     Members interface features
     """
 

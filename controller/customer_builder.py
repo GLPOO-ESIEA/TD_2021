@@ -23,10 +23,3 @@ class CustomerBuilder(UserBuilder):
         except Error as e:
             # log error
             raise e
-
-    def check_username_exists(self, username):
-        try:
-            self._user_dao.get_by_username(username)
-            return True
-        except ResourceNotFound:
-            return False

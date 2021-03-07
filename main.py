@@ -1,9 +1,8 @@
-
 from model.database import DatabaseEngine
 from model.dao.user_dao import UserDAO
 from model import *
 
-from vue.main_vue import MainVue
+from view.main_view import MainView
 
 
 def main():
@@ -15,9 +14,7 @@ def main():
 
     with database_engine.new_session() as db_session:
         user_dao = UserDAO(db_session)
-        MainVue(user_dao).main()
-    # admin_controller = MemberController(database_engine)
-    # AdminVue(admin_controller).admin_shell()
+        MainView(user_dao).main()
 
 
 if __name__ == "__main__":
