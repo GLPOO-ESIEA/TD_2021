@@ -14,7 +14,7 @@ def main():
 
     with database_engine.new_session() as db_session:
         user_dao = UserDAO(db_session)
-        MainView(user_dao).main()
+        MainView(user_dao).show()
 
 
 if __name__ == "__main__":

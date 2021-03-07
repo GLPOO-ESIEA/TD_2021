@@ -1,16 +1,19 @@
 from model.dao.user_dao import UserDAO
+from model.mapping.user import User
 from controller.customer_builder import CustomerBuilder
 from view.common import Common
+from view.view import View
 from exceptions import ResourceNotFound
+from view.user_view_factory import UserViewFactory
 
 
-class MainView:
+class MainView(View):
 
     def __init__(self, user_dao: UserDAO):
         self._user_dao = user_dao
         self._common = Common()
 
-    def main(self):
+    def show(self):
         is_member = self._common.query_yes_no("Are you already a member ?")
         if is_member:
             self.connect()
@@ -47,6 +50,5 @@ class MainView:
         user = customer_builder.create_user(username, firstname, lastname, email)
         self.show_menu(user)
 
-    def show_menu(self, user):
-        pass
-
+    def show_menu(self, user: User):
+        UserViewFactory(user).show()
