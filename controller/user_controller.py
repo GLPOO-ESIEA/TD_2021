@@ -1,8 +1,7 @@
 import re
 
 from model.mapping.user import User
-from model.dao.user_dao import UserDAO
-from exceptions import Error, InvalidData
+from exceptions import InvalidData
 
 
 class UserController:
@@ -10,52 +9,24 @@ class UserController:
     user actions
     """
 
-    def __init__(self, database_engine):
-        self._database_engine = database_engine
+    def __init__(self, db_session):
+        self._db_session = db_session
 
-    def list_users(self):
-        with self._database_engine.new_session() as session:
-            users = UserDAO(session).get_all()
-            users_data = [user.to_dict() for user in users]
-        return users_data
-
-    def get_user(self, user_id):
-        with self._database_engine.new_session() as session:
-            user = UserDAO(session).get(user_id)
-            user_data = user.to_dict()
-        return user_data
-
-    def create_user(self, data):
+    def create_user(self, username: str, firstname: str, lastname: str, email: str):
         raise NotImplementedError()
 
-    def update_user(self, user_id, user_data):
+    def update_user(self, user, **user_data):  # **user_data catch all arguments as username=value, lastname=value
+        for key in ['username', 'firstname', 'lastname', 'email']:
+            if user_data.get(key) is not None:  # Check key is in user_data
+                setattr(user, key, user_data['key'])  # update attribute key in user object
+        self._db_session.flush()
+        return user
 
-        self._check_profile_data(user_data, update=True)
-        with self._database_engine.new_session() as session:
-            user_dao = UserDAO(session)
-            user = user_dao.get(user_id)
-            for key in ['username', 'firstname', 'lastname', 'email']:
-                if user_data.get(key) is not None:
-                    setattr(user, key, user_data['key'])
-            user = session.merge(user)
-            return user.to_dict()
+    def delete_user(self, user):
+        self._db_session.delete(user)
 
-    def delete_user(self, user_id):
-
-        with self._database_engine.new_session() as session:
-            user_dao = UserDAO(session)
-            user = user_dao.get(user_id)
-            session.delete(user)
-
-    def search_user(self, firstname, lastname):
-
-        # Query database
-        with self._database_engine.new_session() as session:
-            user_dao = UserDAO(session)
-            user = user_dao.get_by_name(firstname, lastname)
-            return user.to_dict()
-
-    def _check_profile_data(self, data, update=False):
+    def _check_user(self, user: User, update=False):
+        data = user.to_dict()
         name_pattern = re.compile("^[\S-]{2,50}$")
         type_pattern = re.compile("^(customer|seller)$")
         email_pattern = re.compile("^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")

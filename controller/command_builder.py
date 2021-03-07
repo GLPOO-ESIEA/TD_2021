@@ -1,38 +1,34 @@
-from model.dao.article_dao import ArticleDAO
+from model.mapping.article import Article
 from exceptions import NotEnoughArticle, ResourceNotFound
 from model.mapping.command import Command
 
 
 class CommandBuilder:
 
-    def __init__(self, customer_id: str, database_engine):
-        self._customer_id = customer_id
-        self._database_engine = database_engine
+    def __init__(self, customer: str, db_session):
+        self._customer = customer
+        self._db_session = db_session
 
         self._basket = {}  # mapping basket items
 
     def get_basket(self):
-        return [item.to_dict() for _, item in self._basket]
+        return self._basket
 
-    def add_article(self, article_id: str, number: int):
-        with self._database_engine.new_session() as session:
-            # get article
-            article = ArticleDAO(session).get(article_id)
-            # check stocks
-            if article.number - number < 0:
-                raise NotEnoughArticle()
+    def add_article(self, article: Article, number: int):
+        # check stocks
+        if article.number - number < 0:
+            raise NotEnoughArticle()
 
-            session.expunge(article)
-            self._basket[article_id] = BasketItem(article, number)
+        self._basket[article.id] = BasketItem(article, number)
 
-    def remove_article(self, article_id):
-        if article_id in self._basket:
-            del(self._basket[article_id])
+    def remove_article(self, article):
+        if article.id in self._basket:
+            del(self._basket[article.id])
 
-    def update_number(self, article_id, number):
-        if article_id not in self._basket:
+    def update_number(self, article, number):
+        if article not in self._basket:
             raise ResourceNotFound()
-        basket_item = self._basket[article_id]
+        basket_item = self._basket[article.id]
         if number > basket_item.article.number:
             # check stocks
             raise NotEnoughArticle()
@@ -47,20 +43,18 @@ class CommandBuilder:
         return price
 
     def register_command(self):
-        with self._database_engine.new_session() as session:
-            command = Command(status='pending',
-                              customer_id=self._customer_id)
-            for _, item in self._basket.items():
-                article = item.article
-                session.merge(article)  # article was not bind to the session !
-                command.add_article(article, item.number)
-                # update article stocks
-                article.stock = article.stock - item.number
+        command = Command(status='pending',
+                          customer=self._customer)
+        for _, item in self._basket.items():
+            article = item.article
+            command.add_article(article, item.number)
+            # update article stocks
+            article.stock = article.stock - item.number
 
-            session.add(command)
-            session.flush()
+        self._db_session.add(command)
+        self._db_session.flush()
 
-            return command.id
+        return command.id
 
 
 class BasketItem:

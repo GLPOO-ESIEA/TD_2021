@@ -4,15 +4,14 @@ from exceptions import InvalidData
 
 class CommandManager:
 
-    def __init__(self, command_id, database_engine):
-        self._command_id = command_id
-        self._database_engine = database_engine
+    def __init__(self, command, db_session):
+        self._command = command
+        self._db_session = db_session
 
     def update_status(self, status):
-        with self._database_engine.new_session() as session:
-            command = CommandDAO(session).get(self._command_id)
-            # check status ...
-            if command.status == 'terminated':
-                raise InvalidData()
+        # check status ...
+        if self._command.status == 'terminated':
+            raise InvalidData()
 
-            command.status = status
+        self._command.status = status
+        self._db_session.flush()
