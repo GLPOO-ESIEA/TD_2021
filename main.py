@@ -1,5 +1,6 @@
 from model.database import DatabaseEngine
 from model.dao.user_dao import UserDAO
+from model.dao.article_dao import ArticleDAO
 from model import *
 
 from view.main_view import MainView
@@ -13,8 +14,7 @@ def main():
     database_engine.create_database()
 
     with database_engine.new_session() as db_session:
-        user_dao = UserDAO(db_session)
-        MainView(user_dao).show()
+        MainView(db_session).show()
 
 
 if __name__ == "__main__":

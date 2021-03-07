@@ -6,16 +6,12 @@ from exceptions import Error
 
 class AdminBuilder(UserBuilder):
     """
-    admin actions
+    admin builder
     """
 
     def create_user(self, username: str, firstname: str, lastname: str, email: str):
-        try:
-            # Save user in database
-            admin = Admin(username, firstname, lastname, email)
-            UserValidation(admin).validate()
-            self._db_session.session.add(admin)
-            return admin
-        except Error as e:
-            # log error
-            raise e
+        # Save user in database
+        admin = Admin(username, firstname, lastname, email)
+        UserValidation(admin).validate()
+        self._user_dao.create(admin)
+        return admin

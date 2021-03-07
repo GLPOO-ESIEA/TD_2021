@@ -2,7 +2,7 @@
 from controller.user_builder import UserBuilder
 from controller.validation.user_validation import UserValidation
 from model.mapping.customer import Customer
-from exceptions import Error, ResourceNotFound
+from exceptions import Error
 
 
 class CustomerBuilder(UserBuilder):

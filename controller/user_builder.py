@@ -3,7 +3,7 @@ from model.dao.user_dao import UserDAO
 
 class UserBuilder:
     """
-    user actions
+    user builder
     """
 
     def __init__(self, user_dao):

@@ -1,5 +1,4 @@
 from model.dao.user_dao import UserDAO
-from model.mapping.user import User
 from controller.customer_builder import CustomerBuilder
 from view.common import Common
 from view.view import View
@@ -9,9 +8,10 @@ from view.user_view_factory import UserViewFactory
 
 class MainView(View):
 
-    def __init__(self, user_dao: UserDAO):
-        self._user_dao = user_dao
+    def __init__(self, db_session):
+        self._user_dao = UserDAO(db_session)
         self._common = Common()
+        self._db_session = db_session
 
     def show(self):
         is_member = self._common.query_yes_no("Are you already a member ?")
@@ -29,7 +29,7 @@ class MainView(View):
                 break
             except ResourceNotFound():
                 print("/!\\ Customer %s not exists" % username)
-        self.show_menu(user)
+        UserViewFactory(user, self._db_session).show()
 
     def subscribe(self):
         # Show subscription formular
@@ -48,7 +48,4 @@ class MainView(View):
         lastname = self._common.ask_name(key_name="lastname")
         email = self._common.ask_email()
         user = customer_builder.create_user(username, firstname, lastname, email)
-        self.show_menu(user)
-
-    def show_menu(self, user: User):
-        UserViewFactory(user).show()
+        UserViewFactory(user, self._db_session).show()

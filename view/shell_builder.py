@@ -9,7 +9,10 @@ class ShellBuilder(View):
     """
 
     def __init__(self):
-        self._commands = dict()  # command mapping
+        self._commands = {
+            "help": {"description": "Show help", "view": View},
+            "exit": {"description": "Exit", "view": View}
+        }  # command mapping
 
     def add_command(self, command: str, description: str, view: View):
         self._commands[command] = {
@@ -29,7 +32,7 @@ class ShellBuilder(View):
         command = input('command > ').lower().strip()
         while command not in self._commands.keys():
             print("Unknown command")
-            command = input('command >').lower().strip()
+            command = input('command > ').lower().strip()
 
         return command
 
