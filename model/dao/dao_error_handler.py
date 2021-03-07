@@ -14,7 +14,6 @@ def dao_error_handler(func):
         try:
             return func(*args, **kwargs)
         except NoResultFound:
-            logging.error("NoResultFound caught from SQLAlchemy")
             raise ResourceNotFound("Resource not found")
         except IntegrityError as e:
             logging.debug("Integrity error caught from SQLAlchemy (%s)" % str(e))

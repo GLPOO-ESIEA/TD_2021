@@ -20,17 +20,16 @@ class ArticleController:
         return article
 
     def update_article(self, article, name=None, price=None, description=None, number=None):
-
-            if name is not None:
-                article.name = name
-            if price is not None:
-                article.price = price
-            if description is not None:
-                article.description = description
-            if number is not None:
-                article.number = number
-            self._db_session.flush()
-            return article
+        if name is not None:
+            article.name = name
+        if price is not None:
+            article.price = price
+        if description is not None:
+            article.description = description
+        if number is not None:
+            article.number = number
+        self._db_session.flush()
+        return article
 
     def delete_article(self, article):
         self._db_session.delete(article)

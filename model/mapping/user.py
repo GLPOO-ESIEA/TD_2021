@@ -24,7 +24,7 @@ class User(Base):
     }
 
     def __repr__(self):
-        return "<Member(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.type)
+        return "<user(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.user_type)
 
     def to_dict(self):
         return {
@@ -32,5 +32,5 @@ class User(Base):
             "firstname": self.firstname,
             "lastname": self.lastname,
             "email": self.email,
-            "type": self.type
+            "type": self.user_type
         }

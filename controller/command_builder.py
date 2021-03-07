@@ -1,13 +1,16 @@
 from model.mapping.article import Article
+from model.mapping.customer import Customer
+from sqlalchemy import inspect
 from exceptions import NotEnoughArticle, ResourceNotFound
 from model.mapping.command import Command
 
 
 class CommandBuilder:
 
-    def __init__(self, customer: str, db_session):
+    def __init__(self, customer: Customer):
         self._customer = customer
-        self._db_session = db_session
+        # get database session from user object (User must be bind to a sqlalchemy session)
+        self._db_session = inspect(self._customer).session
 
         self._basket = {}  # mapping basket items
 
@@ -21,11 +24,11 @@ class CommandBuilder:
 
         self._basket[article.id] = BasketItem(article, number)
 
-    def remove_article(self, article):
+    def remove_article(self, article: Article):
         if article.id in self._basket:
             del(self._basket[article.id])
 
-    def update_number(self, article, number):
+    def update_number(self, article: Article, number: int):
         if article not in self._basket:
             raise ResourceNotFound()
         basket_item = self._basket[article.id]
@@ -61,7 +64,7 @@ class BasketItem:
     article = None
     number = None
 
-    def __init__(self, article, number):
+    def __init__(self, article: Article, number: int):
         self.article = article
         self.number = number
 

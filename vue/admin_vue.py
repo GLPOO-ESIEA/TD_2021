@@ -1,6 +1,6 @@
 
 import sys
-from vue.member_vue import MemberVue
+from vue.customer_vue import MemberVue
 from exceptions import ResourceNotFound, Error, InvalidData
 
 

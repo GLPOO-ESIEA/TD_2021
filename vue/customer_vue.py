@@ -11,21 +11,6 @@ class MemberVue:
         self._common = Common()
         self._member_controller = member_controller
 
-    def add_member(self, user_type):
-        # Show subscription formular
-        data = {}
-        print("Store user Subscription")
-        print(user_type)
-        print()
-        data['firstname'] = self._common.ask_name(key_name="firstname")
-        data['lastname'] = self._common.ask_name(key_name="lastname")
-        data['email'] = self._common.ask_email()
-        if user_type != 'customer':
-            data['type'] = self._common.ask_type()
-        else:
-            data['type'] = user_type
-        return self._member_controller.create_member(data)
-
     def show_member(self, member: dict):
         print("Member profile: ")
         print(member['firstname'].capitalize(), member['lastname'].capitalize())

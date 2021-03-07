@@ -17,10 +17,8 @@ class UserDAO(DAO):
         return self._database_session.query(User).filter_by(id=id).one()
 
     @dao_error_handler
-    def get_all(self, user_type = None):
+    def get_all(self):
         query = self._database_session.query(User).order_by(User.firstname)
-        if user_type is not None:
-            query = query.filter_by(user_type=user_type)
         return query.all()
 
     @dao_error_handler

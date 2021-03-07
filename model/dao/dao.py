@@ -13,3 +13,9 @@ class DAO:
     def get_all(self):
         raise NotImplementedError()
 
+    def create(self, entity):
+        self._database_session.add(entity)
+        self._database_session.flush()
+
+    def delete(self, entity):
+        self._database_session.delete(entity)
