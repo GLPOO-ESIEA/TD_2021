@@ -17,5 +17,12 @@ class CommandDAO(DAO):
         return self._database_session.query(Command).filter_by(id=id).one()
 
     @dao_error_handler
-    def get_all(self):
-        return self._database_session.query(Command).order_by(Command.date).all()
+    def get_all(self, status=None):
+        query = self._database_session.query(Command).order_by(Command.date)
+        if status is not None:
+            query = query.filter_by(status=status)
+        return query.all()
+
+    @dao_error_handler
+    def get_in_progress_commands(self):
+        return self._database_session.query(Command).filter(Command.status != 'terminated').all()

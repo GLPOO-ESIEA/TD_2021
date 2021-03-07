@@ -25,5 +25,5 @@ class Article(Base):
             "description": self.description,
             "type": self.article_type,
             "price": self.price,
-            "remain": self.number
+            "number": self.number
         }

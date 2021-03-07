@@ -51,9 +51,15 @@ class CommandBuilder:
             command = Command(status='pending',
                               customer_id=self._customer_id)
             for _, item in self._basket.items():
-                command.add_article(item.article, item.number)
+                article = item.article
+                session.merge(article)  # article was not bind to the session !
+                command.add_article(article, item.number)
+                # update article stocks
+                article.stock = article.stock - item.number
+
             session.add(command)
             session.flush()
+
             return command.id
 
 

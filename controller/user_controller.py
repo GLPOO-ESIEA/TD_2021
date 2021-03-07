@@ -27,20 +27,6 @@ class UserController:
 
     def create_user(self, data):
         raise NotImplementedError()
-        self._check_profile_data(data)
-        try:
-            with self._database_engine.new_session() as session:
-                # Save user in database
-                user = User(username=data['username'],
-                            firstname=data['firstname'],
-                            lastname=data['lastname'],
-                            email=data.get('email'))
-                session.add(user)
-                user_data = user.to_dict()
-                return user_data
-        except Error as e:
-            # log error
-            raise e
 
     def update_user(self, user_id, user_data):
 
