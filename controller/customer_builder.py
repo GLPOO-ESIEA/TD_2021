@@ -18,7 +18,7 @@ class CustomerBuilder(UserBuilder):
                                 lastname=lastname,
                                 email=email)
             UserValidation(customer).validate()
-            self._user_dao.create(customer)
+            self._store.user().create(customer)
             return customer
         except Error as e:
             # log error

@@ -1,4 +1,4 @@
-from model.dao.user_dao import UserDAO
+from model.store import Store
 from controller.customer_builder import CustomerBuilder
 from view.common import Common
 from view.view import View
@@ -8,10 +8,9 @@ from view.user_view_factory import UserViewFactory
 
 class MainView(View):
 
-    def __init__(self, db_session):
-        self._user_dao = UserDAO(db_session)
+    def __init__(self, store: Store):
+        self._store = store
         self._common = Common()
-        self._db_session = db_session
 
     def show(self):
         is_member = self._common.query_yes_no("Are you already a member ?")
@@ -25,22 +24,22 @@ class MainView(View):
         while True:
             username = self._common.ask_name(key_name="username")
             try:
-                user = self._user_dao.get_by_username(username)
+                user = self._store.user().get_by_username(username)
                 break
             except ResourceNotFound():
                 print("/!\\ Customer %s not exists" % username)
-        UserViewFactory(user, self._db_session).show()
+        UserViewFactory(user, self._store).show()
 
     def subscribe(self):
         # Show subscription formular
-        customer_builder = CustomerBuilder(self._user_dao)
+        customer_builder = CustomerBuilder(self._store)
         print("Store user Subscription")
         print()
 
         while True:
             username = self._common.ask_name(key_name="username")
             try:
-                self._user_dao.get_by_username(username)
+                self._store.user().get_by_username(username)
                 print("/!\\ Customer %s already exists" % username)
             except ResourceNotFound:
                 break
@@ -48,4 +47,4 @@ class MainView(View):
         lastname = self._common.ask_name(key_name="lastname")
         email = self._common.ask_email()
         user = customer_builder.create_user(username, firstname, lastname, email)
-        UserViewFactory(user, self._db_session).show()
+        UserViewFactory(user, self._store).show()

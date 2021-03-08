@@ -13,5 +13,5 @@ class AdminBuilder(UserBuilder):
         # Save user in database
         admin = Admin(username, firstname, lastname, email)
         UserValidation(admin).validate()
-        self._user_dao.create(admin)
+        self._store.user().create(admin)
         return admin
