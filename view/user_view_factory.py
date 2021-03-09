@@ -15,5 +15,5 @@ class UserViewFactory:
         if self._user.user_type == 'customer':
             return CustomerView(self._user, self._store).show()
         elif self._user.user_type == 'admin':
-            raise AdminView(self._user, self._store).show()
+            return AdminView(self._user, self._store).show()
         raise Error()

@@ -18,6 +18,10 @@ class ArticleDAO(DAO):
         return self._database_session.query(Article).filter_by(id=id).one()
 
     @dao_error_handler
+    def get_by_name(self, name):
+        return self._database_session.query(Article).filter_by(name=name).one()
+
+    @dao_error_handler
     def get_all(self):
         return self._database_session.query(Article).order_by(Article.name).all()
 

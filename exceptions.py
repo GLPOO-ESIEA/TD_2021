@@ -1,5 +1,5 @@
 
-class Error(Exception):
+class Error(BaseException):
     """Base class for exceptions in this module."""
     pass
 
@@ -13,4 +13,8 @@ class InvalidData(Error):
 
 
 class NotEnoughArticle(Error):
+    pass
+
+
+class Conflict(Error):
     pass

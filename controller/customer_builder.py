@@ -11,15 +11,12 @@ class CustomerBuilder(UserBuilder):
     """
 
     def create_user(self, username: str, firstname: str, lastname: str, email: str):
-        try:
-            # Save user in database
-            customer = Customer(username=username,
-                                firstname=firstname,
-                                lastname=lastname,
-                                email=email)
-            UserValidation(customer).validate()
-            self._store.user().create(customer)
-            return customer
-        except Error as e:
-            # log error
-            raise e
+
+        # Save user in database
+        customer = Customer(username=username,
+                            firstname=firstname,
+                            lastname=lastname,
+                            email=email)
+        UserValidation(customer).validate()
+        self._store.user().create(customer)
+        return customer

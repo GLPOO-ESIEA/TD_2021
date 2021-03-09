@@ -15,9 +15,9 @@ class MainView(View):
     def show(self):
         is_member = self._common.query_yes_no("Are you already a member ?")
         if is_member:
-            self.connect()
+            return self.connect()
         else:
-            self.subscribe()
+            return self.subscribe()
 
     def connect(self):
         print("Connection")
