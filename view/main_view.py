@@ -24,9 +24,10 @@ class MainView(View):
         while True:
             username = self._common.ask_name(key_name="username")
             try:
+                print(self._store.user().get_all())
                 user = self._store.user().get_by_username(username)
                 break
-            except ResourceNotFound():
+            except ResourceNotFound:
                 print("/!\\ Customer %s not exists" % username)
         UserViewFactory(user, self._store).show()
 

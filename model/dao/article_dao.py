@@ -28,6 +28,6 @@ class ArticleDAO(DAO):
     @dao_error_handler
     def search(self, string: str):
         return self._database_session.query(Article)\
-            .filter(or_(Article.c.name.ilike("{}%".format(string)),
-                        Article.c.description.ilike("{}%".format(string))))\
+            .filter(or_(Article.name.ilike("{}%".format(string)),
+                        Article.description.ilike("{}%".format(string))))\
             .order_by(Article.name).all()

@@ -1,5 +1,5 @@
 
-class Error(BaseException):
+class Error(Exception):
     """Base class for exceptions in this module."""
     pass
 

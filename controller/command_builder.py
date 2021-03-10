@@ -15,7 +15,7 @@ class CommandBuilder:
         self._basket = {}  # mapping basket items
 
     def get_basket(self):
-        return self._basket
+        return [self._basket[item] for item in self._basket]
 
     def add_article(self, article: Article, number: int):
         # check stocks
@@ -29,7 +29,7 @@ class CommandBuilder:
             del(self._basket[article.id])
 
     def update_number(self, article: Article, number: int):
-        if article not in self._basket:
+        if article.id not in self._basket:
             raise ResourceNotFound()
         basket_item = self._basket[article.id]
         if number > basket_item.article.number:
@@ -45,14 +45,14 @@ class CommandBuilder:
 
         return price
 
-    def register_command(self):
+    def register(self):
         command = Command(status='pending',
                           customer=self._customer)
         for _, item in self._basket.items():
             article = item.article
             command.add_article(article, item.number)
             # update article stocks
-            article.stock = article.stock - item.number
+            article.number = article.number - item.number
 
         self._db_session.add(command)
         self._db_session.flush()

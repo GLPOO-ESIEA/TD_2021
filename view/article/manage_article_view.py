@@ -1,6 +1,6 @@
 from view.view import View
 from model.store import Store
-from view.list_article_view import ListArticleView
+from view.article.list_article_view import ListArticleView
 from view.shell_builder import ShellBuilder
 from controller.article_controller import ArticleController
 from view.common import Common
@@ -14,8 +14,8 @@ class ManageArticleView(View):
         self._store = store
 
     def show(self):
-        shell = ShellBuilder() \
-            .add_command('articles', 'Show articles', ListArticleView(self._store)) \
+        shell = ShellBuilder(prompt="article") \
+            .add_command('list', 'Show articles', ListArticleView(self._store)) \
             .add_command('add', 'Add article', AddArticleView(self._store))\
             .add_command('delete', 'Delete article', DeleteArticleView(self._store))\
             .add_command('update', 'Update article', UpdateArticleView(self._store))
