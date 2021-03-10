@@ -24,5 +24,5 @@ class CustomerView(View):
             .add_command('articles', 'Show articles', ListArticleView(self._store)) \
             .add_command('command', 'Create command', CommandView(self._customer, self._store))\
             .add_command('commands', 'List historic commands', ListCommandsView(self._store, self._customer))\
-            .add_command('profile', 'Show user profile', View)
+            .add_command('profile', 'Show user profile', View())
         shell.show()

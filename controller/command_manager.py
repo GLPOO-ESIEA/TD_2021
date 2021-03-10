@@ -6,9 +6,12 @@ class CommandManager:
     def __init__(self, command):
         self._command = command
 
-    def update_status(self, status):
+    def deliver(self):
         # check status ...
-        if self._command.status == 'terminated':
+        if self._command.status == 'delivered':
             raise InvalidData()
 
-        self._command.status = status
+        self._command.status = 'delivered'
+
+    def cancel(self):
+        self._command.status = 'cancelled'

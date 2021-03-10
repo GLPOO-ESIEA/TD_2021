@@ -26,6 +26,8 @@ class CommandView(View):
                 if command == 'exit':
                     # Exit loop
                     break
+                elif command == 'help':
+                    self.help()
                 elif command == 'register':
                     self._command.register()
                     print("Command registered, it will be take in charge by our team !")
@@ -98,8 +100,10 @@ class CommandView(View):
         print("  * add <article> <number>: Add article in basket")
         print("  * del <article>: Delete article in basket")
         print("  * update <article> <number>: Update number article items")
+        print("  * articles: Show articles")
         print("  * basket: Show basket items")
         print("  * exit: Cancel command")
+        print("  * help: show this help")
         print("  * price: Show command price")
         print("  * register: Register command")
         print("  * search <string>: Search articles")

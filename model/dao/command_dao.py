@@ -24,5 +24,5 @@ class CommandDAO(DAO):
         return query.all()
 
     @dao_error_handler
-    def get_in_progress_commands(self):
-        return self._database_session.query(Command).filter(Command.status != 'terminated').all()
+    def get_by_status(self, status: str):
+        return self._database_session.query(Command).filter_by(status=status).all()

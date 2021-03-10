@@ -7,4 +7,4 @@ class View:
         print("Operation succeeded: %s" % message)
 
     def show(self):
-        raise NotImplementedError()
+        print("/!\\ Not implemented View")
