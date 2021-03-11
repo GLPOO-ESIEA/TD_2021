@@ -13,7 +13,7 @@ class ListArticleView(View):
             articles = self._store.article().search(self._search)
         else:
             articles = self._store.article().get_all()
-        print("Article:")
+        print("Articles:")
         for article in articles:
             print("- %s: %s" % (article.name, article.description))
             print("     price: %d" % article.price)
