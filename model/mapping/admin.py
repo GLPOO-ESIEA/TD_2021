@@ -14,7 +14,3 @@ class Admin(User):
 
     def __repr__(self):
         return "<Member(%s %s)>" % (self.firstname, self.lastname.upper())
-
-    def to_dict(self):
-        _dict = super().to_dict()
-        return _dict

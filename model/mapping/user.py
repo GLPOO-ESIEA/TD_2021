@@ -25,12 +25,3 @@ class User(Base):
 
     def __repr__(self):
         return "<user(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.user_type)
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "firstname": self.firstname,
-            "lastname": self.lastname,
-            "email": self.email,
-            "type": self.user_type
-        }

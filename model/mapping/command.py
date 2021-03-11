@@ -47,9 +47,3 @@ class CommandItem(Base):
     number = Column(Integer, nullable=False)
     command = relationship("Command", back_populates="articles")
     article = relationship("Article")
-
-    def todict(self):
-        return {
-            "number": self.number,
-            "article": self.article.todict()
-        }

@@ -17,13 +17,3 @@ class Article(Base):
 
     def __repr__(self):
         return "<Article %s (%s)>" % (self.name, self.article_type)
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            "type": self.article_type,
-            "price": self.price,
-            "number": self.number
-        }
