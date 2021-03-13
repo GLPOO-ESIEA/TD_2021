@@ -1,8 +1,9 @@
 from model.mapping.article import Article
 from model.mapping.customer import Customer
+from model.mapping.command import Command
+from model.mapping.command_status_enum import CommandStatusEnum
 from sqlalchemy import inspect
 from exceptions import NotEnoughArticle, ResourceNotFound
-from model.mapping.command import Command
 
 
 class CommandBuilder:
@@ -46,7 +47,7 @@ class CommandBuilder:
         return price
 
     def register(self):
-        command = Command(status='pending',
+        command = Command(status=CommandStatusEnum.PENDING,
                           customer=self._customer)
         for _, item in self._basket.items():
             article = item.article

@@ -1,11 +1,12 @@
 from view.view import View
 from model.store import Store
 from model.mapping.customer import Customer
+from model.mapping.command_status_enum import CommandStatusEnum
 
 
 class ListCommandsView(View):
 
-    def __init__(self, store: Store, user: Customer = None, status: str = None):
+    def __init__(self, store: Store, user: Customer = None, status: CommandStatusEnum = None):
         self._store = store
         self._user = user
         self._status = status
@@ -15,11 +16,8 @@ class ListCommandsView(View):
         if self._user is not None:
             commands = self._user.commands
             print("%s commands:" % self._user.username)
-        elif self._status is not None:
-            commands = self._store.command().get_by_status(self._status)
-            print("Commands with status %s:" % self._status)
         else:
-            commands = self._store.command().get_all()
+            commands = self._store.command().get_all(status=self._status)
             print("Commands:")
         print()
         for command in commands:

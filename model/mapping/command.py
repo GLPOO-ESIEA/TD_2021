@@ -1,8 +1,10 @@
 import datetime
-from model.mapping import Base, generate_id
-from model.dao.dao_error_handler import dao_error_handler
-from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Integer, DateTime
+from sqlalchemy import Column, String, UniqueConstraint, ForeignKey, Integer, DateTime, Enum
 from sqlalchemy.orm import relationship
+
+from model.mapping import Base, generate_id
+from model.mapping.command_status_enum import CommandStatusEnum
+from model.dao.dao_error_handler import dao_error_handler
 
 
 class Command(Base):
@@ -11,7 +13,7 @@ class Command(Base):
     id = Column(String(36), default=generate_id, primary_key=True)
 
     date = Column(DateTime(), default=datetime.datetime.utcnow, nullable=False)
-    status = Column(String(10), nullable=True)  # TODO: update with Enum
+    status = Column(Enum(CommandStatusEnum), nullable=True)  # TODO: update with Enum
     customer_id = Column(String(36), ForeignKey("customer.id"), nullable=True)
 
     articles = relationship("CommandItem")

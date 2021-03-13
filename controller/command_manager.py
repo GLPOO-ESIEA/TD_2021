@@ -1,4 +1,5 @@
 from exceptions import InvalidData
+from model.mapping.command_status_enum import CommandStatusEnum
 
 
 class CommandManager:
@@ -8,10 +9,10 @@ class CommandManager:
 
     def deliver(self):
         # check status ...
-        if self._command.status == 'delivered':
+        if self._command.status != CommandStatusEnum.PENDING:
             raise InvalidData()
 
-        self._command.status = 'delivered'
+        self._command.status = CommandStatusEnum.DELIVERED
 
     def cancel(self):
-        self._command.status = 'cancelled'
+        self._command.status = CommandStatusEnum.CANCELLED

@@ -1,5 +1,6 @@
 from view.view import View
 from model.store import Store
+from model.mapping.command_status_enum import CommandStatusEnum
 from view.command.list_commands_view import ListCommandsView
 
 from controller.command_manager import CommandManager
@@ -26,7 +27,7 @@ class ManageCommandsView(View):
                 elif command == 'list':
                     ListCommandsView(self._store).show()
                 elif command == 'pending':
-                    ListCommandsView(self._store, status='pending').show()
+                    ListCommandsView(self._store, status=CommandStatusEnum.PENDING).show()
                 elif command.startswith('deliver ') or command.startswith('cancel '):
                     if len(command.split(' ')) != 2:
                         print("Error with arguments")
