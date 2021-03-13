@@ -2,6 +2,9 @@ import re
 
 
 class Common:
+    """
+    Somme common functions use by views
+    """
 
     def ask(self, key_name: str = "", regex: str = None, default: str = None):
         message = "Enter %s" % key_name

@@ -3,6 +3,9 @@ from view.view import View
 
 
 class ListArticleView(View):
+    """
+    Show articles
+    """
 
     def __init__(self, store: Store, search: str = None):
         self._store = store

@@ -5,13 +5,13 @@ from view.view import View
 class ShellBuilder(View):
     """
     Shell builder
-    Admin specific interfaces
+    Used to create easy shell. User must register commands and run show function add end
     """
 
     def __init__(self, prompt=""):
         self._commands = {
-            "help": {"description": "Show help", "view": View},
-            "exit": {"description": "Exit", "view": View}
+            "help": {"description": "Show help", "view": View()},
+            "exit": {"description": "Exit", "view": View()}
         }  # command mapping
         self._prompt = prompt
 

@@ -10,12 +10,16 @@ from exceptions import InvalidData, Error, ResourceNotFound, NotEnoughArticle
 
 
 class CommandView(View):
+    """
+    Command creation view. User will be able to add article in the basket and register the command at end.
+    He can exit the command, this one will not be register in database.
+    """
 
     def __init__(self, user: Customer, store: Store):
         self._user = user
         self._store = store
         self._common = Common()
-        self._command = CommandBuilder(self._user)
+        self._command = CommandBuilder(self._user, store)
 
     def show(self):
         print("Create command")

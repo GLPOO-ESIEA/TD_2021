@@ -4,6 +4,9 @@ from controller.validation.validate import Validate
 
 
 class UserValidation(Validate):
+    """
+    Check user fields are correct
+    """
 
     def __init__(self, user: User):
         self._user = user

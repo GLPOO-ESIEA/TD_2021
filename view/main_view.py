@@ -38,6 +38,7 @@ class MainView(View):
         print()
 
         while True:
+            # while username found in database, ark username again
             username = self._common.ask_name(key_name="username")
             try:
                 self._store.user().get_by_username(username)

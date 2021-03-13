@@ -4,6 +4,9 @@ from exceptions import InvalidData
 
 # Interface validation
 class Validate:
+    """
+    Base class used to validate data in objects.
+    """
 
     def validate(self):
         raise NotImplementedError()

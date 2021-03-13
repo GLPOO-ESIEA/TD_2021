@@ -6,6 +6,9 @@ from view.shell_builder import ShellBuilder
 
 
 class ManageArticleView(View):
+    """
+    Interface used by admin to manage articles
+    """
 
     def __init__(self, store: Store):
         self._store = store

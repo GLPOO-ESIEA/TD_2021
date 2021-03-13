@@ -1,7 +1,6 @@
 from model.database import DatabaseEngine
 from model.store import Store
 from exceptions import ResourceNotFound
-from model.mapping.admin import Admin
 from model import *
 
 from view.main_view import MainView
@@ -14,6 +13,7 @@ def main():
     database_engine = DatabaseEngine(url='sqlite:///shop.db')
     database_engine.create_database()
 
+    # Database session is created when opening the app. All data will be commit in database at the end of the program.
     with database_engine.new_session() as db_session:
         # Init store object
         store = Store(db_session)

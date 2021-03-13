@@ -6,6 +6,10 @@ from model.store import Store
 
 
 class UserViewFactory:
+    """
+    From user object, show appropriate view from user type
+    Design Pattern factory
+    """
 
     def __init__(self, user: User, store: Store):
         self._user = user

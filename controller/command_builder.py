@@ -2,17 +2,19 @@ from model.mapping.article import Article
 from model.mapping.customer import Customer
 from model.mapping.command import Command
 from model.mapping.command_status_enum import CommandStatusEnum
-from sqlalchemy import inspect
+from model.store import Store
 from exceptions import NotEnoughArticle, ResourceNotFound
 
 
 class CommandBuilder:
+    """
+    Build command for a customer
+    Design pattern builder (function register must be call at end)
+    """
 
-    def __init__(self, customer: Customer):
+    def __init__(self, customer: Customer, store: Store):
         self._customer = customer
-        # get database session from user object (User must be bind to a sqlalchemy session)
-        self._db_session = inspect(self._customer).session
-
+        self._store = store
         self._basket = {}  # mapping basket items
 
     def get_basket(self):
@@ -55,8 +57,7 @@ class CommandBuilder:
             # update article stocks
             article.number = article.number - item.number
 
-        self._db_session.add(command)
-        self._db_session.flush()
+        self._store.command().create(command)
 
         return command.id
 
@@ -68,9 +69,3 @@ class BasketItem:
     def __init__(self, article: Article, number: int):
         self.article = article
         self.number = number
-
-    def to_dict(self):
-        return {
-            "article": self.article.to_dict(),
-            "number": self.number
-        }

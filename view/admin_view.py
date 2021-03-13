@@ -10,7 +10,7 @@ from model.store import Store
 class AdminView(View):
     """
     Admin View
-    Admin specific interfaces
+    Admin specific interface
     """
 
     def __init__(self, admin_controller, store: Store):

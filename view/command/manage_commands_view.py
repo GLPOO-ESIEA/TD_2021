@@ -3,12 +3,15 @@ from model.store import Store
 from model.mapping.command_status_enum import CommandStatusEnum
 from view.command.list_commands_view import ListCommandsView
 
-from controller.command_manager import CommandManager
+from controller.command_status_manager import CommandStatusManager
 
 from exceptions import ResourceNotFound, Error, InvalidData
 
 
 class ManageCommandsView(View):
+    """
+    Admin view to manage commands
+    """
 
     def __init__(self, store: Store):
         self._store = store
@@ -38,7 +41,7 @@ class ManageCommandsView(View):
                         except ResourceNotFound:
                             print("Command %s not found" % command_id)
                             continue
-                        command_manager = CommandManager(command)
+                        command_manager = CommandStatusManager(command)
                         if status == 'deliver':
                             command_manager.deliver()
                         elif status == 'cancel':

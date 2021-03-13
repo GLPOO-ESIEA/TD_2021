@@ -2,7 +2,10 @@ from exceptions import InvalidData
 from model.mapping.command_status_enum import CommandStatusEnum
 
 
-class CommandManager:
+class CommandStatusManager:
+    """
+    Manage command Status
+    """
 
     def __init__(self, command):
         self._command = command

@@ -5,7 +5,14 @@ from exceptions import ResourceNotFound, Conflict
 
 class ArticleController:
     """
-    article actions
+    article create / update.
+    For update, create ArticleController and feed the controller with fom_article function
+    example:
+        article = store.article().get(...)
+        controller = ArticleController(store)
+        controller.from_article(article)
+        controller.set_name("updated_name")
+        controller.register()
     """
 
     def __init__(self, store: Store):

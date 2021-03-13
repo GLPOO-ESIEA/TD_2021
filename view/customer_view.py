@@ -11,7 +11,7 @@ from view.command.list_commands_view import ListCommandsView
 class CustomerView(View):
     """
     Customer View
-    Members interface features
+    Customers interface
     """
 
     def __init__(self, customer: Customer, store: Store):

@@ -5,8 +5,14 @@ from model.mapping.command_status_enum import CommandStatusEnum
 
 
 class ListCommandsView(View):
+    """
+    Show commands
+    """
 
     def __init__(self, store: Store, user: Customer = None, status: CommandStatusEnum = None):
+        """
+        Commands can be filtered by user or status
+        """
         self._store = store
         self._user = user
         self._status = status

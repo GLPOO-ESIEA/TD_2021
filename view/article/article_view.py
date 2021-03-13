@@ -8,6 +8,9 @@ from model.mapping.article import Article
 
 
 class ArticleView(View):
+    """
+    Creation article view
+    """
 
     def __init__(self, store: Store):
         self._common = Common()
