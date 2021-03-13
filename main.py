@@ -25,8 +25,12 @@ def main():
             admin = Admin(username="admin", firstname="admin", lastname="admin", email="contact@shop.fr")
             db_session.add(admin)
 
-        # Run main view
-        MainView(store).show()
+        try:
+            # Run main view
+            MainView(store).show()
+        except KeyboardInterrupt:
+            pass
+        print("See you soon ! Bye !")
 
 
 if __name__ == "__main__":
