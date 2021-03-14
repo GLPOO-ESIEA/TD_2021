@@ -1,7 +1,8 @@
+from sqlalchemy import func
 from model.dao.dao_error_handler import dao_error_handler
-
 from model.mapping.user import User
 from model.dao.dao import DAO
+from exceptions import ResourceNotFound
 
 
 class UserDAO(DAO):
@@ -23,8 +24,12 @@ class UserDAO(DAO):
 
     @dao_error_handler
     def get_by_name(self, firstname: str, lastname: str):
-        return self._database_session.query(User).filter_by(firstname=firstname, lastname=lastname)\
+        user = self._database_session.query(User).filter(func.lower(User.firstname) == func.lower(firstname),
+                                                         func.lower(User.lastname) == func.lower(lastname))\
             .order_by(User.username).first()
+        if user is None:
+            raise ResourceNotFound()
+        return user
 
     @dao_error_handler
     def get_by_username(self, username: str):

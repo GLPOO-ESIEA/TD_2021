@@ -62,7 +62,7 @@ class CommandBuilder:
 
         self._store.command().create(command)
 
-        return command.id
+        return command
 
 
 class BasketItem:
