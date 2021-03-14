@@ -19,15 +19,7 @@ class Command(Base):
     articles = relationship("CommandItem")
 
     def __repr__(self):
-        return "<Command of %s>" % self.customer.name
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "description": self.description,
-            'articles': [articleAsso.todict() for articleAsso in self.articles]
-        }
+        return "<Command of %s>" % self.customer.username
 
     @dao_error_handler
     def add_article(self, article, number):

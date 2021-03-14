@@ -3,7 +3,7 @@ from model.mapping.customer import Customer
 from model.mapping.command import Command
 from model.mapping.command_status_enum import CommandStatusEnum
 from model.store import Store
-from exceptions import NotEnoughArticle, ResourceNotFound
+from exceptions import NotEnoughArticle, ResourceNotFound, InvalidData
 
 
 class CommandBuilder:
@@ -44,13 +44,16 @@ class CommandBuilder:
     def get_price(self):
         price = 0
         for _, item in self._basket.items():
-            price += item.article.price
+            price += item.article.price * item.number
 
         return price
 
     def register(self):
         command = Command(status=CommandStatusEnum.PENDING,
                           customer=self._customer)
+
+        if len(self._basket.items()) == 0:
+            raise InvalidData()
         for _, item in self._basket.items():
             article = item.article
             command.add_article(article, item.number)
