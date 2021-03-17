@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QCheckBox
 
 
-class UserQtView(QWidget):
+class EditUserQt(QWidget):
     def __init__(self):
         super().__init__()
 
