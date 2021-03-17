@@ -1,4 +1,5 @@
 import re
+from PySide6.QtWidgets import QMessageBox
 
 
 class Common:
@@ -26,3 +27,13 @@ class Common:
 
     def ask_type(self, default=None):
         return self.ask(key_name="type (seller or customer)", regex="^(customer|seller)$", default=default)
+
+    def message_box(self, boxtext: str = "", boxtitle: str = ""):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Information)
+
+        msg.setText(boxtext)
+        msg.setWindowTitle(boxtitle)
+        msg.setStandardButtons(QMessageBox.Ok)
+
+        return msg.exec_()
