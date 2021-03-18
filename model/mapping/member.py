@@ -1,6 +1,5 @@
 from model.mapping import Base
 import uuid
-from vue.common import Common
 
 
 from sqlalchemy import Column, String, UniqueConstraint
@@ -19,8 +18,7 @@ class Member(Base):
     type = Column(String(10), nullable=False)
 
     def __repr__(self):
-        Common().message_box("<Member(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.type), 'Member')
-        #return "<Member(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.type)
+        return "<Member(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.type)
 
     def to_dict(self):
         return {
