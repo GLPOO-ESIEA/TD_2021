@@ -4,10 +4,11 @@ from vue.user.edit import EditUserQt
 from vue.user.delete import DeleteUserQt
 from vue.user.search import SearchUserQt
 from vue.window import BasicWindow
+from controller.member_controller import MemberController
 
 
 class ListUserQt(BasicWindow):
-    def __init__(self, member_controller):
+    def __init__(self, member_controller: MemberController):
         self._member_controller = member_controller
         super().__init__()
         self.addUserWindow = None
@@ -108,18 +109,18 @@ class ListUserQt(BasicWindow):
     def edit_user(self):
         if self.editUserWindow is None:
             user_id = self.get_user_id(self.listwidget.currentItem().text())
-            self.editUserWindow = EditUserQt(self._member_controller, user_id)
+            self.editUserWindow = EditUserQt(self._member_controller, user_id, self)
         self.editUserWindow.show()
 
     def delete_user(self):
         if self.deleteUserWindow is None:
             user_id = self.get_user_id(self.listwidget.currentItem().text())
-            self.deleteUserWindow = DeleteUserQt(self._member_controller, user_id)
+            self.deleteUserWindow = DeleteUserQt(self._member_controller, user_id, self)
         self.deleteUserWindow.show()
 
     def search_user(self):
         if self.searchUserWindow is None:
-            self.searchUserWindow = SearchUserQt(self._member_controller)
+            self.searchUserWindow = SearchUserQt(self._member_controller, self)
         self.searchUserWindow.show()
 
     def get_user_id(self, userfromlist:str):
@@ -127,4 +128,3 @@ class ListUserQt(BasicWindow):
             if "* " + member['firstname'] + " " + member['lastname'] + " (" + member['email'] + ") - " + member['type'] == userfromlist:
                 print(member['id'])
                 return member['id']
-

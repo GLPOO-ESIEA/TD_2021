@@ -1,10 +1,10 @@
-from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox, QComboBox
-from PySide6.QtGui import QCloseEvent
+from PySide6.QtWidgets import QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QComboBox
 from vue.window import BasicWindow
+from controller.member_controller import MemberController
 
 
 class AddUserQt(BasicWindow):
-    def __init__(self, member_controller, show_vue=None):
+    def __init__(self, member_controller: MemberController, show_vue: BasicWindow = None):
         self._member_controller = member_controller
         super().__init__()
         ##

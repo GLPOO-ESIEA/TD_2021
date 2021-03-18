@@ -2,10 +2,12 @@ from PySide6.QtWidgets import QVBoxLayout, QFormLayout, QLineEdit, QPushButton, 
 from PySide6.QtGui import QCloseEvent
 from vue.user.edit import EditUserQt
 from vue.window import BasicWindow
+from controller.member_controller import MemberController
 
 
 class SearchUserQt(BasicWindow):
-    def __init__(self, member_controller):
+
+    def __init__(self, member_controller: MemberController, show_vue: BasicWindow = None):
         self._member_controller = member_controller
         super().__init__()
         ##
@@ -13,6 +15,7 @@ class SearchUserQt(BasicWindow):
         self.last_name = QLineEdit()
         self.editUserWindow = None
 
+        self.show_vue = show_vue
         self.setup()
 
     def setup(self):
@@ -67,4 +70,6 @@ class SearchUserQt(BasicWindow):
         if self.editUserWindow is None:
             self.editUserWindow = EditUserQt(self._member_controller, user['id'])
         self.editUserWindow.show()
+        if self.show_vue is not None:
+            self.show_vue.refresh()
         self.close()

@@ -1,17 +1,18 @@
-from vue.user.add import AddUserQt
-from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox
-from PySide6.QtGui import QCloseEvent
+from PySide6.QtWidgets import QVBoxLayout, QFormLayout, QLineEdit, QPushButton
 from vue.window import BasicWindow
+from controller.member_controller import MemberController
 
 
 class EditUserQt(BasicWindow):
-    def __init__(self, member_controller, id):
+    def __init__(self, member_controller: MemberController, id: str, show_vue: BasicWindow = None):
         self._member_controller = member_controller
         super().__init__()
         self.user_id = id
         self.first_name = QLineEdit()
         self.last_name = QLineEdit()
         self.email = QLineEdit()
+
+        self.show_vue = show_vue
         self.setup()
         self.fillform()
 
@@ -52,6 +53,8 @@ class EditUserQt(BasicWindow):
         # Show subscription formular
         data = {'firstname': self.first_name.text(), 'lastname': self.last_name.text(), 'email': self.email.text(), 'type': 'customer'}
         self._member_controller.update_member(self.user_id, data)
+        if self.show_vue is not None:
+            self.show_vue.refresh()
         self.close()
 
     def fillform(self):
