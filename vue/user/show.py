@@ -26,26 +26,24 @@ class ListUserQt(BasicWindow):
         self.btn_delete_user = QPushButton('Delete user', self)
         self.btn_search_user = QPushButton('Search user', self)
 
-        self.members = ""
-        self.getmembers()
+        self.members = None
+        self.member_mapping = {}
 
         self.list()
         self.side_menu()
         self.setLayout(self.layout)
 
-    def getmembers(self):
-        self.members = self._member_controller.list_members()
-
     def list(self):
 
         self.listwidget.clear()
         index = 0
-        for member in self.members:
+        for member in self._member_controller.list_members():
             self.listwidget.insertItem(index, "* %s %s (%s) - %s" % (
                 member['firstname'],
                 member['lastname'],
                 member['email'],
                 member['type']))
+            self.member_mapping[index] = member
             index += 1
 
         self.listwidget.clicked.connect(self.clicked)
@@ -97,8 +95,6 @@ class ListUserQt(BasicWindow):
         print(item.text())
 
     def refresh(self):
-        self.getmembers()
-
         self.list()
         self.show()
 
@@ -109,23 +105,17 @@ class ListUserQt(BasicWindow):
 
     def edit_user(self):
         if self.editUserWindow is None:
-            user_id = self.get_user_id(self.listwidget.currentItem().text())
-            self.editUserWindow = EditUserQt(self._member_controller, user_id, self)
+            user = self.member_mapping[self.listwidget.currentRow()]
+            self.editUserWindow = EditUserQt(self._member_controller, user['id'], self)
         self.editUserWindow.show()
 
     def delete_user(self):
         if self.deleteUserWindow is None:
-            user_id = self.get_user_id(self.listwidget.currentItem().text())
-            self.deleteUserWindow = DeleteUserQt(self._member_controller, user_id, self)
+            user = self.member_mapping[self.listwidget.currentRow()]
+            self.deleteUserWindow = DeleteUserQt(self._member_controller, user['id'], self)
         self.deleteUserWindow.show()
 
     def search_user(self):
         if self.searchUserWindow is None:
             self.searchUserWindow = SearchUserQt(self._member_controller, self)
         self.searchUserWindow.show()
-
-    def get_user_id(self, userfromlist:str):
-        for member in self.members:
-            if "* " + member['firstname'] + " " + member['lastname'] + " (" + member['email'] + ") - " + member['type'] == userfromlist:
-                print(member['id'])
-                return member['id']
