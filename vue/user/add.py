@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox, QComboBox
 from PySide6.QtGui import QCloseEvent
+from vue.window import BasicWindow
 
 
-
-class AddUserQt(QWidget):
-    def __init__(self, member_controller):
+class AddUserQt(BasicWindow):
+    def __init__(self, member_controller, show_vue=None):
         self._member_controller = member_controller
         super().__init__()
         ##
@@ -13,7 +13,7 @@ class AddUserQt(QWidget):
         self.email = QLineEdit()
         self.type = QComboBox()
 
-
+        self.show_vue = show_vue
         self.setup()
 
     def setup(self):
@@ -52,15 +52,6 @@ class AddUserQt(QWidget):
         # Set the window's main layout
         self.setLayout(outerLayout)
 
-    def quitEvent(self, event: QCloseEvent):
-        reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit ?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            self.close()
-        else:
-            event.ignore()
-
     def addUser(self):
         # Show subscription formular
         data = {'firstname': self.first_name.text(),
@@ -74,8 +65,12 @@ class AddUserQt(QWidget):
 
         print("Members: ")
         for member in members:
-            print("* %s %s (%s) - %s" % (   member['firstname'].capitalize(),
-                                            member['lastname'].capitalize(),
-                                            member['email'],
-                                            member['type']))
+            print("* %s %s (%s) - %s" % (
+                member['firstname'].capitalize(),
+                member['lastname'].capitalize(),
+                member['email'],
+                member['type']))
+        if self.show_vue is not None:
+            self.show_vue.refresh()
         self.close()
+

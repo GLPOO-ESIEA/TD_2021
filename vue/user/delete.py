@@ -1,9 +1,10 @@
 from vue.user.add import AddUserQt
 from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox
 from PySide6.QtGui import QCloseEvent
+from vue.window import BasicWindow
 
 
-class DeleteUserQt(QWidget):
+class DeleteUserQt(BasicWindow):
     def __init__(self, member_controller, id):
         self._member_controller = member_controller
         super().__init__()
@@ -47,20 +48,10 @@ class DeleteUserQt(QWidget):
         # Set the window's main layout
         self.setLayout(outerLayout)
 
-    def quitEvent(self, event: QCloseEvent):
-        reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit ?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            self.close()
-        else:
-            event.ignore()
-
     def deleteUser(self):
         # Show subscription formular
         self._member_controller.delete_member(self.user_id)
         self.close()
-
 
     def fillform(self):
         user = self._member_controller.get_member(self.user_id)

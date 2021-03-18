@@ -1,10 +1,10 @@
-from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox, QComboBox
+from PySide6.QtWidgets import QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox
 from PySide6.QtGui import QCloseEvent
-from vue.common import Common
 from vue.user.edit import EditUserQt
+from vue.window import BasicWindow
 
 
-class SearchUserQt(QWidget):
+class SearchUserQt(BasicWindow):
     def __init__(self, member_controller):
         self._member_controller = member_controller
         super().__init__()

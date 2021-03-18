@@ -1,9 +1,10 @@
 from vue.user.add import AddUserQt
 from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox
 from PySide6.QtGui import QCloseEvent
+from vue.window import BasicWindow
 
 
-class EditUserQt(QWidget):
+class EditUserQt(BasicWindow):
     def __init__(self, member_controller, id):
         self._member_controller = member_controller
         super().__init__()
@@ -47,21 +48,11 @@ class EditUserQt(QWidget):
         # Set the window's main layout
         self.setLayout(outerLayout)
 
-    def quitEvent(self, event: QCloseEvent):
-        reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit ?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            self.close()
-        else:
-            event.ignore()
-
     def editUser(self):
         # Show subscription formular
         data = {'firstname': self.first_name.text(), 'lastname': self.last_name.text(), 'email': self.email.text(), 'type': 'customer'}
         self._member_controller.update_member(self.user_id, data)
         self.close()
-
 
     def fillform(self):
         user = self._member_controller.get_member(self.user_id)

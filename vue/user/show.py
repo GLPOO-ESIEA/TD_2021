@@ -1,12 +1,12 @@
-from PySide6.QtWidgets import QWidget, QListWidget, QGridLayout,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox, QApplication, QHBoxLayout
-from PySide6.QtGui import QCloseEvent
+from PySide6.QtWidgets import QListWidget, QGridLayout,  QVBoxLayout, QPushButton, QHBoxLayout
 from vue.user.add import AddUserQt
 from vue.user.edit import EditUserQt
 from vue.user.delete import DeleteUserQt
 from vue.user.search import SearchUserQt
+from vue.window import BasicWindow
 
 
-class ListUserQt(QWidget):
+class ListUserQt(BasicWindow):
     def __init__(self, member_controller):
         self._member_controller = member_controller
         super().__init__()
@@ -36,12 +36,14 @@ class ListUserQt(QWidget):
 
     def list(self):
 
+        self.listwidget.clear()
         index = 0
         for member in self.members:
-            self.listwidget.insertItem(index, "* %s %s (%s) - %s" % (   member['firstname'],
-                                            member['lastname'],
-                                            member['email'],
-                                            member['type']))
+            self.listwidget.insertItem(index, "* %s %s (%s) - %s" % (
+                member['firstname'],
+                member['lastname'],
+                member['email'],
+                member['type']))
             index += 1
 
         self.listwidget.clicked.connect(self.clicked)
@@ -92,9 +94,15 @@ class ListUserQt(QWidget):
         self.btn_delete_user.setEnabled(True)
         print(item.text())
 
+    def refresh(self):
+        self.getmembers()
+
+        self.list()
+        self.show()
+
     def add_user(self):
         if self.addUserWindow is None:
-            self.addUserWindow = AddUserQt(self._member_controller)
+            self.addUserWindow = AddUserQt(self._member_controller, self)
         self.addUserWindow.show()
 
     def edit_user(self):
@@ -120,11 +128,3 @@ class ListUserQt(QWidget):
                 print(member['id'])
                 return member['id']
 
-    def closeEvent(self, event: QCloseEvent):
-        reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit ?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
