@@ -2,7 +2,6 @@ from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPu
 from PySide6.QtGui import QCloseEvent
 from vue.common import Common
 from vue.user.edit import EditUserQt
-from vue.user.show import ListUserQt
 
 
 class SearchUserQt(QWidget):

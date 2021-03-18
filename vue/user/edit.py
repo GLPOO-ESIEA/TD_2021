@@ -1,7 +1,6 @@
 from vue.user.add import AddUserQt
 from PySide6.QtWidgets import QWidget,  QVBoxLayout, QFormLayout, QLineEdit, QPushButton, QMessageBox
 from PySide6.QtGui import QCloseEvent
-from vue.user.show import ListUserQt
 
 
 class EditUserQt(QWidget):
