@@ -14,4 +14,4 @@ class BasicWindow(QWidget):
             event.ignore()
 
     def refresh(self):
-        raise NotImplementedError()
+        pass

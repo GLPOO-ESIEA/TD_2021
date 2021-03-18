@@ -4,6 +4,7 @@ from controller.member_controller import MemberController
 
 
 class AddUserQt(BasicWindow):
+
     def __init__(self, member_controller: MemberController, show_vue: BasicWindow = None):
         self._member_controller = member_controller
         super().__init__()
