@@ -10,8 +10,9 @@ from controller.member_controller import MemberController
 class ListUserQt(BasicWindow):
 
     def __init__(self, member_controller: MemberController):
-        self._member_controller = member_controller
         super().__init__()
+
+        self._member_controller = member_controller
         self.addUserWindow = None
         self.editUserWindow = None
         self.deleteUserWindow = None
@@ -26,7 +27,6 @@ class ListUserQt(BasicWindow):
         self.btn_delete_user = QPushButton('Delete user', self)
         self.btn_search_user = QPushButton('Search user', self)
 
-        self.members = None
         self.member_mapping = {}
 
         self.list()
