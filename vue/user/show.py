@@ -8,6 +8,7 @@ from controller.member_controller import MemberController
 
 
 class ListUserQt(BasicWindow):
+
     def __init__(self, member_controller: MemberController):
         self._member_controller = member_controller
         super().__init__()

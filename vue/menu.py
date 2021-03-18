@@ -1,12 +1,12 @@
 from vue.window import BasicWindow
-from PySide6.QtWidgets import QApplication, QVBoxLayout, QWidget, QPushButton, QMessageBox
-from PySide6.QtGui import QCloseEvent
+from PySide6.QtWidgets import QApplication, QVBoxLayout, QPushButton
 from vue.user.show import ListUserQt
 from controller.member_controller import MemberController
 
 
 class MenuWindow(BasicWindow):
-    def __init__(self, member_controller):
+
+    def __init__(self, member_controller: MemberController):
         self._member_controller = member_controller
         super().__init__()
         self.listUserWindow = None
@@ -47,20 +47,7 @@ class MenuWindow(BasicWindow):
         self.setLayout(layout)
         self.show()
 
-    #def add_user(self):
-    #    if self.addUserWindow is None:
-    #        self.addUserWindow = AddUserQt(self._member_controller)
-    #    self.addUserWindow.show()
     def list_user(self):
         if self.listUserWindow is None:
-           self.listUserWindow = ListUserQt(self._member_controller)
+            self.listUserWindow = ListUserQt(self._member_controller)
         self.listUserWindow.show()
-
-    def closeEvent(self, event: QCloseEvent):
-        reply = QMessageBox.question(self, 'Message', 'Are you sure you want to quit ?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
-
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
