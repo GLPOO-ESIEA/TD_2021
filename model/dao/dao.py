@@ -14,12 +14,16 @@ class DAO:
         raise NotImplementedError()
 
     def create(self, entity):
-        self._database_session.add(entity)
-        self._database_session.flush()
+        # https://docs.sqlalchemy.org/en/14/orm/session_transaction.html#session-subtransactions-migrating
+        with self._database_session.begin_nested():
+            self._database_session.add(entity)
+            self._database_session.flush()
 
     def update(self, entity):
-        self._database_session.merge(entity)
-        self._database_session.flush()
+        with self._database_session.begin_nested():
+            self._database_session.merge(entity)
+            self._database_session.flush()
 
     def delete(self, entity):
-        self._database_session.delete(entity)
+        with self._database_session.begin_nested():
+            self._database_session.delete(entity)

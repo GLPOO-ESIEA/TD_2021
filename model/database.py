@@ -64,3 +64,9 @@ class Session:
 
     def close(self):
         self._session.close()
+
+    def begin_nested(self):
+        return self._session.begin_nested()
+
+    def transaction(self):
+        return self._session.transaction()
