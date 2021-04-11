@@ -1,6 +1,6 @@
 from model.database import DatabaseEngine
 from model.store import Store
-from exceptions import ResourceNotFound
+from exceptions import ResourceNotFound, Exit
 from model import *
 
 from view.main_view import MainView
@@ -28,6 +28,8 @@ def main():
         try:
             # Run main view
             MainView(store).show()
+        except Exit:
+            pass
         except KeyboardInterrupt:
             pass
         print("See you soon ! Bye !")

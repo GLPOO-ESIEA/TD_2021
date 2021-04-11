@@ -1,4 +1,4 @@
-from exceptions import ResourceNotFound, Error, InvalidData
+from exceptions import ResourceNotFound, Error, InvalidData, Exit
 from view.view import View
 
 
@@ -58,5 +58,7 @@ class ShellBuilder(View):
                 self.error_message("Member not found")
             except InvalidData as e:
                 self.error_message(str(e))
+            except Exit:
+                raise
             except Error as e:
                 self.error_message("An error occurred (%s)" % str(e))

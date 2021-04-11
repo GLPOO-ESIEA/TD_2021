@@ -1,8 +1,8 @@
 from model.store import Store
-from controller.customer_create import CustomerCreate
+from controller.customer_controller import CustomerController
 from view.common import Common
 from view.view import View
-from exceptions import ResourceNotFound, InvalidData
+from exceptions import ResourceNotFound, InvalidData, Conflict
 from view.user_view_factory import UserViewFactory
 
 
@@ -24,7 +24,6 @@ class MainView(View):
         while True:
             username = self._common.ask_name(key_name="username")
             try:
-                print(self._store.user().get_all())
                 user = self._store.user().get_by_username(username)
                 break
             except ResourceNotFound:
@@ -33,23 +32,27 @@ class MainView(View):
 
     def subscribe(self):
         # Show subscription formular
-        customer_builder = CustomerCreate(self._store)
+        customer_controller = CustomerController(self._store)
         print("Store user Subscription")
         print()
 
-        while True:
-            # while username found in database, ark username again
-            username = self._common.ask_name(key_name="username")
-            try:
-                self._store.user().get_by_username(username)
-                print("/!\\ Customer %s already exists" % username)
-            except ResourceNotFound:
-                break
-        firstname = self._common.ask_name(key_name="firstname")
-        lastname = self._common.ask_name(key_name="lastname")
-        email = self._common.ask_email()
         try:
-            user = customer_builder.create_user(username, firstname, lastname, email)
+            while True:
+                # while username found in database, ark username again
+                username = self._common.ask_name(key_name="username")
+                try:
+                    customer_controller.set_username(username)
+                    break
+                except Conflict as e:
+                    print("/!\\ %s" % str(e))
+            firstname = self._common.ask_name(key_name="firstname")
+            customer_controller.set_firstname(firstname)
+            lastname = self._common.ask_name(key_name="lastname")
+            customer_controller.set_lastname(lastname)
+            email = self._common.ask_email()
+            customer_controller.set_email(email)
+
+            user = customer_controller.register()
         except InvalidData as e:
             print("/!\\ %s" % str(e))
             return

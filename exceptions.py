@@ -18,3 +18,7 @@ class NotEnoughArticle(Error):
 
 class Conflict(Error):
     pass
+
+
+class Exit(Error):
+    pass
