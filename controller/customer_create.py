@@ -3,7 +3,7 @@ from model.store import Store
 from controller.validation.user_validation import UserValidation
 
 
-class CustomerBuilder:
+class CustomerCreate:
     """
     customer create
     """

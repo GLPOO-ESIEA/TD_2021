@@ -1,5 +1,5 @@
 from model.store import Store
-from controller.customer_builder import CustomerBuilder
+from controller.customer_create import CustomerCreate
 from view.common import Common
 from view.view import View
 from exceptions import ResourceNotFound, InvalidData
@@ -33,7 +33,7 @@ class MainView(View):
 
     def subscribe(self):
         # Show subscription formular
-        customer_builder = CustomerBuilder(self._store)
+        customer_builder = CustomerCreate(self._store)
         print("Store user Subscription")
         print()
 
