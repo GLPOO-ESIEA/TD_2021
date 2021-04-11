@@ -2,7 +2,7 @@ from model.store import Store
 from controller.customer_builder import CustomerBuilder
 from view.common import Common
 from view.view import View
-from exceptions import ResourceNotFound
+from exceptions import ResourceNotFound, InvalidData
 from view.user_view_factory import UserViewFactory
 
 
@@ -48,5 +48,9 @@ class MainView(View):
         firstname = self._common.ask_name(key_name="firstname")
         lastname = self._common.ask_name(key_name="lastname")
         email = self._common.ask_email()
-        user = customer_builder.create_user(username, firstname, lastname, email)
+        try:
+            user = customer_builder.create_user(username, firstname, lastname, email)
+        except InvalidData as e:
+            print("/!\\ %s" % str(e))
+            return
         UserViewFactory(user, self._store).show()
