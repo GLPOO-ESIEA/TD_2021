@@ -25,3 +25,6 @@ class User(Base):
 
     def __repr__(self):
         return "<user(%s %s %s)>" % (self.firstname, self.lastname.upper(), self.user_type)
+
+    def delete(self):
+        self.session.delete(self)

@@ -1,5 +1,6 @@
 from model.mapping.user import User
 from model.store import Store
+from model.mapping.command_status_enum import CommandStatusEnum
 from exceptions import ResourceNotFound, Conflict
 from controller.validation.validate import Validate
 
@@ -74,3 +75,12 @@ class UserController:
         else:
             self._store.user().update(user)
         return user
+
+    def delete(self):
+        if self._id is None:
+            raise ResourceNotFound("User not registered")
+        user = self._store.user().get(self._id)
+        for command in user.commands:
+            if command.status == CommandStatusEnum.PENDING:
+                raise Conflict("Cannot remove user with pending commands")
+        self._store.user().delete(user)
