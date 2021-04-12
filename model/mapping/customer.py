@@ -2,8 +2,6 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from model.mapping.user import User
 from model.mapping import generate_id
-from model.mapping.command_status_enum import CommandStatusEnum
-from exceptions import Conflict
 
 
 class Customer(User):

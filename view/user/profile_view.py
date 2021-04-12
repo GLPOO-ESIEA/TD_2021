@@ -21,5 +21,6 @@ class ProfileView(View):
         shell = ShellBuilder(prompt="profile") \
             .add_command('show', 'Show profile', ShowProfileView(self._user))\
             .add_command('update', 'Update profile', UpdateProfileView(self._store, self._user))\
-            .add_command('unsubscribe', 'Delete my account', DeleteUserView(self._store, self._user))
+            .add_command('unsubscribe', 'Delete my account', DeleteUserView(self._store, self._user,
+                                                                            exit_if_success=True))
         shell.show()
